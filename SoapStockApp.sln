@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoapStockApp", "SoapStockApp\SoapStockApp.csproj", "{975E2FFD-4EA6-47EB-A2D6-4D077EC6E01C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{975E2FFD-4EA6-47EB-A2D6-4D077EC6E01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{975E2FFD-4EA6-47EB-A2D6-4D077EC6E01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{975E2FFD-4EA6-47EB-A2D6-4D077EC6E01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{975E2FFD-4EA6-47EB-A2D6-4D077EC6E01C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B1EE10D-987A-446B-9D32-8B13B26B9FE2}
+	EndGlobalSection
+EndGlobal

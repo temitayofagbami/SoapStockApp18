@@ -8,40 +8,26 @@ namespace SoapStockApp
 {
     class Customer
     {
+        private static int lastCustomerID = 0;
         #region Properties
-        private int CustomerID { get; set; }
-        private string CustomerName { get; set; }
-        private string CustomerEmail { get; set; }
-        private string CustomerAddr { get; set; }
-        private string CustomerPhone { get; set; }
+        public int CustomerID { get; private set; }
+        public string CustomerName { get;  set; }
+        public string CustomerEmail { get; set; }
+        public string CustomerAddr { get; set; }
+        public string CustomerPhone { get; set; }
         #endregion
 
 
+        #region Constructor
+        public Customer()
+        {
+            CustomerID = ++lastCustomerID;
+           
+        }
+        #endregion
+
         #region Methods
-        public int getCustomerID
-        {
-            get { return CustomerID; }
-        }
-        public string getCustomerName
-        {
-            get { return CustomerName; }
-            set { CustomerName = value; }
-        }
-        public string getCustomerEmail
-        {
-            get { return CustomerEmail; }
-            set { CustomerEmail = value; }
-        }
-        public string getCustomerAddr
-        {
-            get { return CustomerAddr; }
-            set { CustomerAddr = value; }
-        }
-        public string getCustomerPhone
-        {
-            get { return CustomerPhone; }
-            set { CustomerPhone = value; }
-        }
+
         #endregion
     }
 }

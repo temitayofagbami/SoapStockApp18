@@ -8,63 +8,69 @@ namespace SoapStockApp
 {
     class Order
     {
+        private static int lastOrderID = 0;
+        private static int SaleTaxPercentage = 15/100;
+
         #region Properties
-        private static int orderID { get; set; }
-        private Customer orderCustomer { get; set; }
-        private DateTime orderdateTime { get; set; }
+        public int OrderID { get; private set; }
+        public Customer OrderCustomer { get; set; }
+        public DateTime CreatedDate { get; private set; }
         //i think this order class should have a property of collection  of class Product called OrderedProductList
-        private int totalorderQuantity { get; set; }
-        private decimal  totalorderPrice { get; set; }
-        private double salestaxPrice { get; set; }
-        private bool boolorderPaid { get; set; }
+        public int TotalOrderQuantity { get; private set; }
+        public double  TotalOrderPrice { get; private set; }
+        public double salestaxPrice { get; private set; }
+        public double FinalPrice { get; private set; }
+        public int DeliveryTimeSelected { get;  set; }
+        public  bool BoolOrderPaid { get; private set; }
+        #endregion
+
+
+
+
+        #region Constructor
+        public Order()
+        {
+            OrderID = ++lastOrderID;
+            TotalOrderQuantity = 0;
+            TotalOrderPrice = 0;
+            FinalPrice = 0;
+            CreatedDate = DateTime.UtcNow;
+            BoolOrderPaid = false;
+        }
         #endregion
 
         #region Methods
-        public int OrderID
+        public void OrderPaid(bool value)
         {
-            get { return orderID; }
-        }
-        public Customer OrderCustomer
-        {
-            get { return orderCustomer; }
+            BoolOrderPaid = value;
+
         }
 
-        public DateTime OrderDateTime
+        public void CalTotalOrderQuantity()
         {
-            get { return orderdateTime; }
+            // TotalOrderQuantity = summation of OrderedProductlist.ProductQuantity;
+
         }
 
-        public int TotalOrderQuantity
+        public void CalTotalOrderPrice()
         {
-            get { return totalorderQuantity; }   
-        }
-        public int CalTotalOrderQuantity
-        {
-            //not sure about this , but i will get values from OrderProductList
-           get { return totalorderQuantity; }
+           // TotalOrderPrice = summation of OrderedProductlist.ProductPrice;
+
         }
 
-        public decimal TotalOrderPrice   
+
+        public void CalSalesTaxPrice()
         {
-            get { return totalorderPrice; }
+          salestaxPrice =(double) (SaleTaxPercentage * TotalOrderPrice);
+
         }
-        public decimal CalTotalOrderPrice
+        public void CalFinalPrice()
         {
-            //not sure about this, but i will get values from OrderProductList
-            get { return totalorderPrice; }
-        }
-        
-        public double CalSalesTaxPrice
-        {
-            //not sure if this is done right
-           // set { salestaxPrice = (double)totalorderPrice * 0.10; } 
-            get { return salestaxPrice = ((double)totalorderPrice * 0.10) ; }
+            FinalPrice = (double) (salestaxPrice + TotalOrderPrice);
+
         }
 
-        public bool BoolOrderPaid
-        {
-            get { return boolorderPaid; }
-        }
+        #endregion
+
     }
 }
-

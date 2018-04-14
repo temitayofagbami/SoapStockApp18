@@ -1,0 +1,2 @@
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.csprojResolveAssemblyReference.cache
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.csproj.CoreCompileInputs.cache

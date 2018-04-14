@@ -26,10 +26,10 @@ namespace SoapStockApp
             ProductID = ++lastProductID;
 
         }
-    
-    #region Methods
+        #endregion
+        #region Methods
         //these will be called by store owner, not customer
-    public void AddProductName(string value)
+        public void AddProductName(string value)
     {
         ProductName = value;
 

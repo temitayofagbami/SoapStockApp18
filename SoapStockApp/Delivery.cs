@@ -32,12 +32,9 @@ namespace SoapStockApp
         #region Methods
         public void CalPendingDeliveryDateDate(int value)
         {
-            if (value <= 0)
+            if (value > 0)
             {
-                Console.WriteLine(" Sorry, we do not have same day delivery or next day delivery. The least delivery time is 2 days");
-            }
-
-            else{
+            
                 TimeSpan time = new TimeSpan(value, 0, 0, 0);
                 PendingDeliveryDate = PurchasedOrder.CreatedDate.Add(time);
             }

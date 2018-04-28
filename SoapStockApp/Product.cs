@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,31 +9,50 @@ namespace SoapStockApp
 {
 
 
-    enum TypeOfProduct
+    public enum TypeOfProduct
 
     {
+        [Display(Name = "Laundry_Detergent")]
 
         Laundry_Detergent,
 
+        [Display(Name = "Bar")]
         Bar,
-
+        [Display(Name = "Dish")]
         Dish,
-
+        [Display(Name = "Body_Wash")]
         Body_Wash,
 
     }
 
 
-    class Product
+   public class Product
     {
         private static int lastProductID = 0;
         #region Properties
+        [Key]
+        
         public int ProductID { get; private set; }
+
+        [Required]
+        [StringLength(30,ErrorMessage = "Product Name cannot be more than 30 characters in length")]
         public string  ProductName { get;  set; }
+
+        [Required]
+        [StringLength(30, ErrorMessage = "Product Supplier cannot be more than 30 characters in length")]
         public string ProductSupplierName { get; set; }
+
+      //  [Required]
+       // [StringLength(30, ErrorMessage = "Product Decription cannot be more than 100 characters in length")]
         public string ProductDescr { get;set; }
+        
         public TypeOfProduct ProductType { get; set; }
+
+        [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Please enter price")]
         public decimal ProductPrice { get; private set; }
+
+        [Required]
+        [Range(0, Int32.MaxValue, ErrorMessage = "Please enter valid Number")]
         public int ProductQuantity { get; set; }
        
         #endregion
@@ -70,6 +90,11 @@ namespace SoapStockApp
         public void IncrementProductQuantity(int value)
         {
             ProductQuantity += value;
+
+        }
+        public void DecrementProductQuantity(int value)
+        {
+            ProductQuantity -= value;
 
         }
         #endregion

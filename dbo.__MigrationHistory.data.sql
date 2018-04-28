@@ -1,0 +1,1 @@
+﻿delete FROM [dbo].[__MigrationHistory]

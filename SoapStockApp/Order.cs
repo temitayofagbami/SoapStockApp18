@@ -13,7 +13,7 @@ namespace SoapStockApp
 
         #region Properties
         public int OrderID { get; private set; }
-        public Customer OrderCustomer { get; set; }
+       // public Customer OrderCustomer { get; set; }
         public DateTime CreatedDate { get; private set; }
         //i think this order class should have a property of collection  of class Product called OrderedProductList
         public int TotalOrderQuantity { get; private set; }

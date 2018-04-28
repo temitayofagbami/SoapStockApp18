@@ -40,6 +40,23 @@ namespace SoapStockApp
                     case "1":
 
                         Console.WriteLine(" Shopping ");
+                        Console.WriteLine("Browse whole invertory");
+                        var products = Inventory.GetAllProducts();
+                        Console.WriteLine("-----------------------------------");
+
+                        PrintProductList(products);
+                        Console.WriteLine("Make selection by Product Name");
+                        var selectedProductName = Console.ReadLine();
+                        products = Inventory.GetAllProductsByProductName(selectedProductName);
+                        Console.WriteLine($"How many units of  {selectedProductName} do you want: ");
+                        var selectedQuantity = Convert.ToInt32(Console.ReadLine());
+
+                        var orderedproducts =Inventory.DecreaseProductQuantity(selectedQuantity, selectedProductName);
+                        Console.WriteLine("Here is new  invertory numbers");
+                        var updatedproducts = Inventory.GetAllProductsByProductName(selectedProductName);
+                        PrintProductList(updatedproducts);
+                   
+                       // Store.CreateOrder(orderedproduct);
                         break;
 
                     case "2":
@@ -64,12 +81,19 @@ namespace SoapStockApp
                         Console.Write("Provide Product Quanitity to be added: ");
                         var initalQuantity = Convert.ToInt32(Console.ReadLine());
 
-                        var product = Inventory.CreateProduct(supplierName, productName, productType, productPrice, initalQuantity);
+                        if (!Inventory.ProductExistInInventory(productName))
+                        {
+                            var product = Inventory.CreateProduct(supplierName, productName, productType, productPrice, initalQuantity);
 
-                        Console.WriteLine(" Product below was added to inventory");
-                        Console.WriteLine("-----------------------------------");
-                        Console.WriteLine($"ProductID: {product.ProductID}, ProductName: {product.ProductName}, Product Price: {product.ProductPrice:C}, Product Quantity: {product.ProductQuantity:C}, by By Supplier: {product.ProductSupplierName}");
-
+                            Console.WriteLine(" Product below was added to inventory");
+                            Console.WriteLine("-----------------------------------");
+                            Console.WriteLine($"ProductID: {product.ProductID}, ProductName: {product.ProductName}, Product Price: {product.ProductPrice:C}, Product Quantity: {product.ProductQuantity:0}, By Supplier: {product.ProductSupplierName}");
+                        }
+                        else
+                        {
+                            //already in inventory and we just have to update quantity
+                            Inventory.IncreaseProductQuantity(initalQuantity, productName);
+                        }
                         break;
 
 
@@ -79,21 +103,27 @@ namespace SoapStockApp
 
                         supplierName = Console.ReadLine();
 
-                        var products = Inventory.GetAllProducts(supplierName);
+                        products = Inventory.GetAllProductsBySupplier(supplierName);
                         Console.WriteLine($" {supplierName}: List of Products in Inventory");
                         Console.WriteLine("--------------------------------------------------");
 
-                        foreach (var prdt in products)
-
-                        {
-
-                            Console.WriteLine($"ProductID: {prdt.ProductID}, ProductName: {prdt.ProductName}, Product Price: {prdt.ProductPrice:C}");
-
-                        }
-
+                        PrintProductList(products);
                         break;
 
                 }
+
+            }
+
+        }
+
+        //print products returned
+        public static void PrintProductList(IEnumerable<Product> printproducts) {
+
+            foreach (var prdt in printproducts)
+
+            {
+
+                Console.WriteLine($"ProductID: {prdt.ProductID}, ProductName: {prdt.ProductName}, Product Price: {prdt.ProductPrice:C}, Product Quantity: {prdt.ProductQuantity:0}");
 
             }
 

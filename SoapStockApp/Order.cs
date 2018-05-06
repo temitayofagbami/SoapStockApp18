@@ -30,7 +30,7 @@ namespace SoapStockApp
         #region Constructor
         public Order()
         {
-            OrderID = ++lastOrderID;
+           // OrderID = ++lastOrderID;
             TotalOrderQuantity = 0;
             TotalOrderPrice = 0;
             FinalPrice = 0;

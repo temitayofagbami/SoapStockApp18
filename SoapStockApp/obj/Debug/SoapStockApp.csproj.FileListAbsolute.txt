@@ -9,4 +9,6 @@ C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\EntityFrame
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\EntityFramework.xml
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.csproj.CopyComplete
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.Migrations.Customers.resources
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.csproj.GenerateResource.cache
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.csprojResolveAssemblyReference.cache

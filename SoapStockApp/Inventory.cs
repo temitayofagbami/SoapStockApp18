@@ -74,19 +74,16 @@ namespace SoapStockApp
         public static bool ProductExistInInventory(string productName)
         {
             bool boolExist = false;
-               db.Products.Where(p => p.ProductName == productName).ToList().ForEach(q=>boolExist=true);
-           // db.Products.Where(p => p.ProductName == productName).SingleOrDefault();
+            db.Products.Where(p => p.ProductName == productName).ToList().ForEach(q=>boolExist=true);
             return boolExist;
 
         }
-        public static Product DecreaseProductQuantity(int selectedQuantity, string productName)
+        public static void DecrementProductQuantity(int selectedQuantity, string productName)
         {
-           var orderedproduct = db.Products.Where(p => p.ProductName == productName).SingleOrDefault();
-            orderedproduct.ProductQuantity = selectedQuantity;
-           // db.Products.Where(p =>p.ProductName==productName).ToList().ForEach(q=>q.DecrementProductQuantity(selectedQuantity));
+         
             db.Products.Where(p => p.ProductName == productName).SingleOrDefault().DecrementProductQuantity(selectedQuantity);
             db.SaveChanges();
-            return orderedproduct;
+           
         }
         public static void IncreaseProductQuantity(int selectedQuantity, string productName)
         {

@@ -38,25 +38,64 @@ namespace SoapStockApp
                         return;
 
                     case "1":
-
+                        List<Product> oproductlist = new List<Product>();
+                        // IEnumerable<Product> products = new List<Product>();
+                       // var products;
                         Console.WriteLine(" Shopping ");
-                        Console.WriteLine("Browse whole invertory");
-                        var products = Inventory.GetAllProducts();
-                        Console.WriteLine("-----------------------------------");
+                        bool shopping = true;
+                        
+                       
+                            Console.WriteLine("Browse whole invertory");
+                          var  products = Inventory.GetAllProducts();
+                            Console.WriteLine("-----------------------------------");
 
-                        PrintProductList(products);
-                        Console.WriteLine("Make selection by Product Name");
-                        var selectedProductName = Console.ReadLine();
-                        products = Inventory.GetAllProductsByProductName(selectedProductName);
-                        Console.WriteLine($"How many units of  {selectedProductName} do you want: ");
-                        var selectedQuantity = Convert.ToInt32(Console.ReadLine());
+                            PrintProductList(products);
+                        while (shopping)
+                        {
+                            Console.WriteLine("Make selection by Product Name");
+                            var selectedProductName = Console.ReadLine();
+                           // var products = Inventory.GetAllProductsByProductName(selectedProductName);
+                            Console.WriteLine($"How many units of  {selectedProductName} do you want: ");
+                            var selectedQuantity = Convert.ToInt32(Console.ReadLine());
 
-                        var orderedproducts =Inventory.DecreaseProductQuantity(selectedQuantity, selectedProductName);
-                        Console.WriteLine("Here is new  invertory numbers");
-                        var updatedproducts = Inventory.GetAllProductsByProductName(selectedProductName);
-                        PrintProductList(updatedproducts);
-                   
-                       // Store.CreateOrder(orderedproduct);
+                            //wrapper
+                            Inventory.DecrementProductQuantity(selectedQuantity, selectedProductName);
+
+                            Console.WriteLine("Here is new  invertory numbers");
+                            products = Inventory.GetAllProductsByProductName(selectedProductName);
+                            PrintProductList(products);
+                           // oproductlist.Add(orderedproduct);
+
+                            Console.WriteLine(" Still Shopping, yes or done");
+                            string shoppingstatus = Console.ReadLine().ToString();
+                            if (shoppingstatus == "yes")
+                                shopping = true;
+                            else if(shoppingstatus== "done")
+                                shopping = false;
+                            else
+                            {
+                                Console.WriteLine(" incorrect input, Still Shopping, yes or done");
+                                shoppingstatus = Console.ReadLine().ToString();
+                                //needs to be fixed
+                            }
+
+                        }
+
+
+                        //once done shopping, create order and customer in store
+                        Console.WriteLine(" Creating order for this customer");
+                        Console.WriteLine("***********************************");
+                        Console.WriteLine(" Please provide  Name:");
+                        var custName = Console.ReadLine();
+                        Console.WriteLine(" Please provide Email address:");
+                        var custEmailAddress = Console.ReadLine();
+                        Console.WriteLine(" Please provide Address:");
+                        var custAddress = Console.ReadLine();
+                        Console.WriteLine(" Please provide Phone Number:");
+                        var custPhoneNumber = Console.ReadLine();
+
+                        Store.CreateOrder(custName, custEmailAddress, custAddress, custPhoneNumber,  oproductlist);
+
                         break;
 
                     case "2":
@@ -103,7 +142,7 @@ namespace SoapStockApp
 
                         supplierName = Console.ReadLine();
 
-                        products = Inventory.GetAllProductsBySupplier(supplierName);
+                      products = Inventory.GetAllProductsBySupplier(supplierName);
                         Console.WriteLine($" {supplierName}: List of Products in Inventory");
                         Console.WriteLine("--------------------------------------------------");
 

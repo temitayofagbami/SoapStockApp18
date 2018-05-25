@@ -54,11 +54,8 @@
     <Compile Include="Customer.cs" />
     <Compile Include="Delivery.cs" />
     <Compile Include="Inventory.cs" />
-    <Compile Include="Migrations\201805020420564_Customers.cs" />
-    <Compile Include="Migrations\201805020420564_Customers.Designer.cs">
-      <DependentUpon>201805020420564_Customers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="OrderDetail.cs" />
+    <Compile Include="Payment.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Program.cs" />
@@ -68,12 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805020420564_Customers.resx">
-      <DependentUpon>201805020420564_Customers.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

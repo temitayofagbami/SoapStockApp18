@@ -4,10 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
+
+
 namespace SoapStockApp
 {
     class Program
     {
+        public static object MessageBox { get; private set; }
+
         static void Main(string[] args)
         {
             
@@ -23,7 +29,7 @@ namespace SoapStockApp
 
                 Console.WriteLine("0. Quit");
                 Console.WriteLine("1. Customer: Shop for Soaps ");
-                Console.WriteLine("2. Customer: checkout Orders ");
+                Console.WriteLine("2. Customer: View Past Orders ");
                 Console.WriteLine("3. Supplier:Adding Products in inventory ");
                 Console.WriteLine("4. Supplier:View Products in inventory ");
 
@@ -39,44 +45,59 @@ namespace SoapStockApp
 
                     case "1":
                         List<Product> oproductlist = new List<Product>();
-                        // IEnumerable<Product> products = new List<Product>();
-                       // var products;
+                        IEnumerable<Product> products = new List<Product>();
+                        // var products;
                         Console.WriteLine(" Shopping ");
                         bool shopping = true;
-                        
-                       
-                            Console.WriteLine("Browse whole invertory");
-                          var  products = Inventory.GetAllProducts();
-                            Console.WriteLine("-----------------------------------");
 
+
+                        Console.WriteLine("Browse whole invertory");
+
+                        Console.WriteLine("-----------------------------------");
+                        //Product products;
+                        try
+                        {
+                            products = Inventory.GetAllProducts();
                             PrintProductList(products);
+                        }
+                        catch (NullReferenceException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            shopping = false;
+                            
+                        }
+
+                        
                         while (shopping)
                         {
                             Console.WriteLine("Make selection by Product Name");
                             var selectedProductName = Console.ReadLine();
-                           // var products = Inventory.GetAllProductsByProductName(selectedProductName);
+                            // var products = Inventory.GetAllProductsByProductName(selectedProductName);
                             Console.WriteLine($"How many units of  {selectedProductName} do you want: ");
                             var selectedQuantity = Convert.ToInt32(Console.ReadLine());
 
                             //wrapper
-                            Inventory.DecrementProductQuantity(selectedQuantity, selectedProductName);
-
-                            Console.WriteLine("Here is new  invertory numbers");
-                            products = Inventory.GetAllProductsByProductName(selectedProductName);
+                            Product orderedproduct = Inventory.DecrementProductQuantity(selectedQuantity, selectedProductName);
+                            //  orderedproduct.IncrementProductQuantity(selectedQuantity);
+                            orderedproduct.ProductQuantity = selectedQuantity;
+                            //need to get list products ordered
+                            Console.WriteLine("Here is new  invertory numbers of selected product name");
+                           products = Inventory.GetAllProductsByProductName(selectedProductName);
                             PrintProductList(products);
-                           // oproductlist.Add(orderedproduct);
+                            oproductlist.Add(orderedproduct);
 
                             Console.WriteLine(" Still Shopping, yes or done");
                             string shoppingstatus = Console.ReadLine().ToString();
                             if (shoppingstatus == "yes")
                                 shopping = true;
-                            else if(shoppingstatus== "done")
+                            else if (shoppingstatus == "done")
                                 shopping = false;
                             else
                             {
                                 Console.WriteLine(" incorrect input, Still Shopping, yes or done");
                                 shoppingstatus = Console.ReadLine().ToString();
                                 //needs to be fixed
+                                shopping = true;
                             }
 
                         }
@@ -94,13 +115,99 @@ namespace SoapStockApp
                         Console.WriteLine(" Please provide Phone Number:");
                         var custPhoneNumber = Console.ReadLine();
 
-                        Store.CreateOrder(custName, custEmailAddress, custAddress, custPhoneNumber,  oproductlist);
+                        Store.CreateOrder(custName, custEmailAddress, custAddress, custPhoneNumber, oproductlist);
+                        //if creation order is successful, pay for order
 
+                        Console.WriteLine(" Please provide payment information for this order");
+                        Console.WriteLine("***********************************");
+                        Console.WriteLine(" Please provide  Credit card Company, Visa, MasterCard or American Express :");
+                        var cardCompany = (TypeOfPayment)Enum.Parse(typeof(TypeOfPayment), Console.ReadLine());
+                        Console.WriteLine(" Please provide  Card holder Number:");
+                        int cardNumber = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine(" Please provide  Card holder Name:");
+                        var cardName = Console.ReadLine();
+                        Console.WriteLine(" Please provide Card Billing Address:");
+                        var billingaddress = Console.ReadLine();
+                        Store.PayOrder(cardCompany, cardNumber, cardName, billingaddress);
                         break;
 
                     case "2":
 
                         Console.WriteLine(" checking on Orders ");
+                        bool repeat = true;
+                        while (repeat)
+                        {
+
+
+                            Console.Write("Provide OrderDetail ID: ");
+                            var orderdetailNumber = -1;
+
+                            try
+                            {
+                                orderdetailNumber = Int32.Parse(Console.ReadLine());
+
+                            }
+                            catch (FormatException e)
+                            {
+                                Console.WriteLine(e.Message);
+                                Console.WriteLine("You have entered non-numeric characters");
+
+
+                            }
+
+                            try
+                            {
+
+                                var orderdetail = Store.GetOrderDetail(orderdetailNumber);
+                                PrintOrderDetail(orderdetail);
+                            }
+                            catch (NullReferenceException e)
+                            {
+                                Console.WriteLine($" Error: {e.Message}");
+                            }
+                            try
+                            {
+
+                                var orders = Store.GetOrders(orderdetailNumber);
+                                PrintOrders(orders);
+                            }
+                            catch (NullReferenceException e)
+                            {
+                                Console.WriteLine($" Error: {e.Message}");
+                            }
+
+
+
+
+                            Console.WriteLine(" View another orderdetail ? Y/N");
+                            try
+                            {
+                                string go = Console.ReadLine();
+                                if (go == "Y" || go == "y")
+                                {
+                                    repeat = true;
+                                }
+                                else if (go == "N" || go == "n")
+                                {
+                                    repeat = false;
+                                }
+                                else
+                                {
+                                    Console.WriteLine(" Incorrect input.Please enter correct Y/N");
+                                    repeat = true;
+                                }
+                            }
+
+                            catch (FormatException e)
+                            {
+                                Console.WriteLine(e.Message);
+                                Console.WriteLine("You have entered non characters type");
+
+
+
+                            }
+                        }
+
                         break;
 
                     case "3":
@@ -112,27 +219,28 @@ namespace SoapStockApp
                         var productName = Console.ReadLine();
 
                         Console.Write("Provide Product Type: ");
-                        var productType = (TypeOfProduct)Enum.Parse(typeof(TypeOfProduct), Console.ReadLine());
+                        var ptype = Enum.GetNames(typeof(TypeOfProduct));
 
+                        for(var i =0; i < ptype.Length; i++)
+                        {
+                            Console.WriteLine($"{i} : {ptype[i]}");
+                        }
+
+                        var productType = (TypeOfProduct)Enum.Parse(typeof(TypeOfProduct), Console.ReadLine());
+                     
                         Console.Write("Provide Product Price: ");
                         var productPrice = Convert.ToDecimal(Console.ReadLine());
 
                         Console.Write("Provide Product Quanitity to be added: ");
                         var initalQuantity = Convert.ToInt32(Console.ReadLine());
 
-                        if (!Inventory.ProductExistInInventory(productName))
-                        {
+                        
                             var product = Inventory.CreateProduct(supplierName, productName, productType, productPrice, initalQuantity);
 
                             Console.WriteLine(" Product below was added to inventory");
                             Console.WriteLine("-----------------------------------");
                             Console.WriteLine($"ProductID: {product.ProductID}, ProductName: {product.ProductName}, Product Price: {product.ProductPrice:C}, Product Quantity: {product.ProductQuantity:0}, By Supplier: {product.ProductSupplierName}");
-                        }
-                        else
-                        {
-                            //already in inventory and we just have to update quantity
-                            Inventory.IncreaseProductQuantity(initalQuantity, productName);
-                        }
+                        
                         break;
 
 
@@ -141,12 +249,20 @@ namespace SoapStockApp
                         Console.Write("Provide Supplier Name: ");
 
                         supplierName = Console.ReadLine();
+                        // IEnumerable<Product> products = new List<Product>();
+                        try
+                        {
+                            products = Inventory.GetAllProductsBySupplier(supplierName);
 
-                      products = Inventory.GetAllProductsBySupplier(supplierName);
-                        Console.WriteLine($" {supplierName}: List of Products in Inventory");
-                        Console.WriteLine("--------------------------------------------------");
+                            Console.WriteLine($" {supplierName}: List of Products in Inventory");
+                            Console.WriteLine("--------------------------------------------------");
 
-                        PrintProductList(products);
+                            PrintProductList(products);
+                        }
+                        catch(NullReferenceException e)
+                        {
+                            Console.WriteLine($" Error: {e.Message}");
+                        }
                         break;
 
                 }
@@ -167,6 +283,29 @@ namespace SoapStockApp
             }
 
         }
+        public static void PrintOrderDetail(OrderDetail printorderdetail)
+        {
+
+            Console.WriteLine($"OrderDetailD: {printorderdetail.OrderDetailID}");
+            Console.WriteLine($"Total OrderQuantity :{printorderdetail.TotalOrderQuantity}");
+            Console.WriteLine($"Total OrderPrice : {printorderdetail.TotalOrderPrice:C}");
+            Console.WriteLine($" salestax: {printorderdetail.salestaxPrice:C}");
+            Console.WriteLine($"Final Price: {printorderdetail.FinalPrice:C}");
+            Console.WriteLine($"DeliveryDate: {printorderdetail.DeliveryTimeSelected.ToString("ggyyyy$dd - MMM(dddd)")}");
+            Console.WriteLine($"OrderDetail Date: { printorderdetail.CreatedDate.ToString("YY:MM:dd:hh:mm:ss tt")}");
+
+        }
+
+        public static void PrintOrders(IEnumerable<Order> printorders)
+        {
+            foreach (var ord in printorders)
+
+            {
+
+                Console.WriteLine($"OrderDetailD: {ord.OrderDetailNumber}, OrderID: {ord.OrderID}, ProductNumber: {ord.ProductNumber}, Order Price: {ord.OrderPrice:C}, Order Quantity: {ord.OrderQuantity:0}, Order Date: { ord.CreatedDate.ToString("YY:MM:dd:hh:mm:ss tt")}");
+            }
+        }
+
 
     } 
 

@@ -1,0 +1,11 @@
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp1.deps.json
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp1.runtimeconfig.json
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp1.runtimeconfig.dev.json
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp1.dll
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\bin\Debug\netcoreapp2.0\ConsoleApp1.pdb
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp1.csprojResolveAssemblyReference.cache
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp1.AssemblyInfo.cs
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp1.dll
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\ConsoleApp1\obj\Debug\netcoreapp2.0\ConsoleApp1.pdb

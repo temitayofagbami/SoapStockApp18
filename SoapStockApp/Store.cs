@@ -13,15 +13,9 @@ namespace SoapStockApp
         private static SoapStockModel db = new SoapStockModel();
 
         //Create new order
-        public static Order CreateOrder(string custName, string custEmailAddress, string custAddress, string custPhoneNumber, List<Product> orderedproduct)
+        public static void CreateOrder(string custName, string custEmailAddress, string custAddress, string custPhoneNumber, List<Product> orderedproduct)
 
         {
-
-           var order = new Order
-            {
-
-
-            };
             
 
             var customer = new Customer
@@ -33,17 +27,102 @@ namespace SoapStockApp
                 CustomerPhone = custPhoneNumber,
 
             };
-            Console.WriteLine(" begore adding customer");
+           
             db.Customers.Add(customer);
-            Console.WriteLine(" afteradding");
             db.SaveChanges();
-            Console.WriteLine(" aftercommiting");
+        
+            //create order detail
+            var orderdetail = new OrderDetail
+            {
 
-            //db.Orders.Add(order);
-            return order;
+            };
+            db.OrderDetails.Add(orderdetail);
+            db.SaveChanges();
+
+            //create order from list of ordered products
+            for (int i=0; i < orderedproduct.Count; i++) {
+
+                var order = new Order
+                {
+
+                    CustomerNumber = customer.CustomerID,
+                    ProductNumber = orderedproduct[i].ProductID,
+                    OrderDetailNumber = orderdetail.OrderDetailID,
+                    OrderQuantity = orderedproduct[i].ProductQuantity,
+                    OrderPrice = orderedproduct[i].ProductPrice,
+
+                };
+
+                
+                db.OrderDetails.Where(o => o.OrderDetailID == orderdetail.OrderDetailID).SingleOrDefault().CalTotalOrderQuantity(order.OrderQuantity);
+                db.OrderDetails.Where(o => o.OrderDetailID == orderdetail.OrderDetailID).SingleOrDefault().CalTotalOrderPrice(order.OrderPrice*order.OrderQuantity);
+                db.SaveChanges();
+
+                Console.Write("this is order id ");
+                Console.WriteLine(order.OrderID);
+                Console.Write("this is order detail number ");
+                Console.WriteLine(order.OrderDetailNumber);
+
+                Console.Write("this is customer id ");
+                Console.WriteLine(order.CustomerNumber);
+               
+    
+                db.Orders.Add(order);
+           
+                db.SaveChanges();
+            }
+           
+            db.OrderDetails.Where(o => o.OrderDetailID == orderdetail.OrderDetailID).SingleOrDefault().CalSalesTaxPrice();
+            db.OrderDetails.Where(o => o.OrderDetailID == orderdetail.OrderDetailID).SingleOrDefault().CalFinalPrice();
+            db.SaveChanges();
+        }
+        
+        public static bool PayOrder(TypeOfPayment paymentCompany, int cardNumber,  string cardholderName, string cardbillingAddress)
+        {
+            bool cardApproved = true;
+            //to write code to check if payment went thru
+
+            if (cardApproved)
+            {
+
+                var payment = new Payment()
+                {
+
+
+
+                    PaymentType = paymentCompany,
+                    //  PaymentAmount = orderdetailfinalprice;
+
+
+
+                };
+
+            }
+
+            return cardApproved;
         }
 
-       
+        public static OrderDetail GetOrderDetail(int OrderDetailNumber)
+        {
+
+            var orderdetail = db.OrderDetails.Where(o => o.OrderDetailID == OrderDetailNumber).SingleOrDefault();
+            if (orderdetail == null)
+            {
+                throw new NullReferenceException("Order detail number does not exist");
+            }
+            return orderdetail;
+        }
+
+        public static IEnumerable<Order> GetOrders(int OrderDetailNumber) { 
+            var orders = db.Orders.Where(o => o.OrderDetailNumber == OrderDetailNumber).ToList();
+            if (orders == null)
+            {
+                throw new NullReferenceException( " Orders do not exist");
+            }
+            return orders;
+        }
 
     }
+
+   
 }

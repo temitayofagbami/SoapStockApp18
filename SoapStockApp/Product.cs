@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +30,10 @@ namespace SoapStockApp
 
    public class Product
     {
+
+/// <summary>
+/// 
+/// </summary>
         private static int lastProductID = 0;
         #region Properties
         [Key]
@@ -45,7 +51,9 @@ namespace SoapStockApp
       //  [Required]
        // [StringLength(30, ErrorMessage = "Product Decription cannot be more than 100 characters in length")]
         public string ProductDescr { get;set; }
-        
+
+        [EnumDataType(typeof(TypeOfProduct),   ErrorMessage = " Must choose from List of Soap type")]
+        // must be only ther four 
         public TypeOfProduct ProductType { get; set; }
 
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Please enter price")]
@@ -55,6 +63,8 @@ namespace SoapStockApp
         [Range(0, Int32.MaxValue, ErrorMessage = "Please enter valid Number")]
         public int ProductQuantity { get; set; }
        
+
+      //  public virtual ICollection<Order> Orders { get; set; }
         #endregion
 
 
@@ -87,6 +97,7 @@ namespace SoapStockApp
             ProductPrice = value;
 
         }
+       
         public void IncrementProductQuantity(int value)
         {
             ProductQuantity += value;

@@ -1,27 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SoapStockApp
 {
-    class Order
+    public class Order
     {
         private static int lastOrderID = 0;
-        private static int SaleTaxPercentage = 15/100;
+        // private static int SaleTaxPercentage = 15/100;
 
         #region Properties
+        [Key]
         public int OrderID { get; private set; }
-       // public Customer OrderCustomer { get; set; }
+        // public Customer OrderCustomer { get; set; }
         public DateTime CreatedDate { get; private set; }
         //i think this order class should have a property of collection  of class Product called OrderedProductList
-        public int TotalOrderQuantity { get; private set; }
-        public double  TotalOrderPrice { get; private set; }
-        public double salestaxPrice { get; private set; }
-        public double FinalPrice { get; private set; }
-        public int DeliveryTimeSelected { get;  set; }
-        public  bool BoolOrderPaid { get; private set; }
+        public int OrderQuantity { get; set; }
+        public decimal OrderPrice { get; set; }
+        // public double salestaxPrice { get; private set; }
+        //  public double FinalPrice { get; private set; }
+        public DateTime DeliveryTimeSelected { get; set; }
+        public bool BoolOrderPaid { get; private set; }
+
+        [ForeignKey("Product")]
+        public int ProductNumber { get; set; }
+        public virtual Product Product { get; set; }
+
+        [ForeignKey("Customer")]
+        public int CustomerNumber { get; set; }
+        public virtual Customer Customer { get; set; }
+
+        [ForeignKey("OrderDetail")]
+        public int OrderDetailNumber { get; set; }
+        public virtual OrderDetail OrderDetail { get; set; }
+
+
+
         #endregion
 
 
@@ -30,12 +48,16 @@ namespace SoapStockApp
         #region Constructor
         public Order()
         {
-           // OrderID = ++lastOrderID;
-            TotalOrderQuantity = 0;
-            TotalOrderPrice = 0;
-            FinalPrice = 0;
+            OrderID = ++lastOrderID;
+            OrderQuantity = 0;
+            OrderPrice = 0;
+            //salestaxPrice = 0;
+            //FinalPrice = 0;
             CreatedDate = DateTime.UtcNow;
+            DeliveryTimeSelected = CreatedDate.AddDays(2.0);
             BoolOrderPaid = false;
+
+
         }
         #endregion
 
@@ -54,22 +76,11 @@ namespace SoapStockApp
 
         public void CalTotalOrderPrice()
         {
-           // TotalOrderPrice = summation of OrderedProductlist.ProductPrice;
+            // TotalOrderPrice = summation of OrderedProductlist.ProductPrice;
 
         }
 
-
-        public void CalSalesTaxPrice()
-        {
-          salestaxPrice =(double) (SaleTaxPercentage * TotalOrderPrice);
-
-        }
-        public void CalFinalPrice()
-        {
-            FinalPrice = (double) (salestaxPrice + TotalOrderPrice);
-
-        }
-
+       
         #endregion
 
     }

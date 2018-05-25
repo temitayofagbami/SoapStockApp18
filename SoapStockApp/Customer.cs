@@ -11,6 +11,7 @@ namespace SoapStockApp
     {
         private static int lastCustomerID = 0;
         #region Properties
+        [Key]
         public int CustomerID { get; private set; }
         [Required]
         [StringLength(30, ErrorMessage = "Customer Name cannot be more than 30 characters in length")]

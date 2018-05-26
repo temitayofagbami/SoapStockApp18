@@ -46,7 +46,7 @@ namespace SoapStockApp
                     case "1":
                         List<Product> oproductlist = new List<Product>();
                         IEnumerable<Product> products = new List<Product>();
-                        // var products;
+
                         Console.WriteLine(" Shopping ");
                         bool shopping = true;
 
@@ -64,15 +64,17 @@ namespace SoapStockApp
                         {
                             Console.WriteLine(e.Message);
                             shopping = false;
-                            
+                            break;
                         }
 
-                        
+                        try { 
                         while (shopping)
                         {
+
+
+
                             Console.WriteLine("Make selection by Product Name");
                             var selectedProductName = Console.ReadLine();
-                            // var products = Inventory.GetAllProductsByProductName(selectedProductName);
                             Console.WriteLine($"How many units of  {selectedProductName} do you want: ");
                             var selectedQuantity = Convert.ToInt32(Console.ReadLine());
 
@@ -82,7 +84,7 @@ namespace SoapStockApp
                             orderedproduct.ProductQuantity = selectedQuantity;
                             //need to get list products ordered
                             Console.WriteLine("Here is new  invertory numbers of selected product name");
-                           products = Inventory.GetAllProductsByProductName(selectedProductName);
+                            products = Inventory.GetAllProductsByProductName(selectedProductName);
                             PrintProductList(products);
                             oproductlist.Add(orderedproduct);
 
@@ -99,36 +101,58 @@ namespace SoapStockApp
                                 //needs to be fixed
                                 shopping = true;
                             }
-
                         }
-
+                            
 
                         //once done shopping, create order and customer in store
                         Console.WriteLine(" Creating order for this customer");
                         Console.WriteLine("***********************************");
-                        Console.WriteLine(" Please provide  Name:");
-                        var custName = Console.ReadLine();
-                        Console.WriteLine(" Please provide Email address:");
-                        var custEmailAddress = Console.ReadLine();
-                        Console.WriteLine(" Please provide Address:");
-                        var custAddress = Console.ReadLine();
-                        Console.WriteLine(" Please provide Phone Number:");
-                        var custPhoneNumber = Console.ReadLine();
+                        
+                        
+                            Console.WriteLine(" Please provide  Name:");
+                            var custName = Console.ReadLine();
+                            Console.WriteLine(" Please provide Email address:");
+                            var custEmailAddress = Console.ReadLine();
+                            Console.WriteLine(" Please provide Address:");
+                            var custAddress = Console.ReadLine();
+                            Console.WriteLine(" Please provide Phone Number:");
+                            var custPhoneNumber = Console.ReadLine();
 
-                        Store.CreateOrder(custName, custEmailAddress, custAddress, custPhoneNumber, oproductlist);
-                        //if creation order is successful, pay for order
+                            Store.CreateOrder(custName, custEmailAddress, custAddress, custPhoneNumber, oproductlist);
+                            //if creation order is successful, pay for order
 
-                        Console.WriteLine(" Please provide payment information for this order");
-                        Console.WriteLine("***********************************");
-                        Console.WriteLine(" Please provide  Credit card Company, Visa, MasterCard or American Express :");
-                        var cardCompany = (TypeOfPayment)Enum.Parse(typeof(TypeOfPayment), Console.ReadLine());
-                        Console.WriteLine(" Please provide  Card holder Number:");
-                        int cardNumber = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine(" Please provide  Card holder Name:");
-                        var cardName = Console.ReadLine();
-                        Console.WriteLine(" Please provide Card Billing Address:");
-                        var billingaddress = Console.ReadLine();
-                        Store.PayOrder(cardCompany, cardNumber, cardName, billingaddress);
+                            Console.WriteLine(" Please provide payment information for this order");
+                            Console.WriteLine("***********************************");
+                            Console.WriteLine(" Please provide  Credit card Company, Visa, MasterCard or American Express :");
+                            var cardCompany = (TypeOfPayment)Enum.Parse(typeof(TypeOfPayment), Console.ReadLine());
+                            Console.WriteLine(" Please provide  Card holder Number:");
+                            int cardNumber = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine(" Please provide  Card holder Name:");
+                            var cardName = Console.ReadLine();
+                            Console.WriteLine(" Please provide Card Billing Address:");
+                            var billingaddress = Console.ReadLine();
+                            Store.PayOrder(cardCompany, cardNumber, cardName, billingaddress);
+                        }
+
+                        catch (ArgumentNullException e)
+                        {
+                            Console.WriteLine($" Error: {e.Message}");
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine($" Error: {e.Message}");
+                        }
+                        catch (FormatException)
+                        {
+
+                            Console.WriteLine("  You have entered incorrect format type for card number please enter correct type");
+                        }
+                        catch (NullReferenceException e)
+                        {
+                            Console.WriteLine($" Error: {e.Message}");
+                        }
+
+
                         break;
 
                     case "2":
@@ -212,35 +236,57 @@ namespace SoapStockApp
 
                     case "3":
 
-                        Console.Write("Provide Supplier Name: ");
-                        var supplierName = Console.ReadLine();
+                        try {
 
-                        Console.Write("Provide Product Name: ");
-                        var productName = Console.ReadLine();
+                            Console.Write("Provide Supplier Name: ");
+                            var supplierName = Console.ReadLine();
 
-                        Console.Write("Provide Product Type: ");
-                        var ptype = Enum.GetNames(typeof(TypeOfProduct));
+                            Console.Write("Provide Product Name: ");
+                            var productName = Console.ReadLine();
 
-                        for(var i =0; i < ptype.Length; i++)
-                        {
-                            Console.WriteLine($"{i} : {ptype[i]}");
-                        }
+                            Console.Write("Provide Product Type: ");
+                            var ptype = Enum.GetNames(typeof(TypeOfProduct));
 
-                        var productType = (TypeOfProduct)Enum.Parse(typeof(TypeOfProduct), Console.ReadLine());
-                     
-                        Console.Write("Provide Product Price: ");
-                        var productPrice = Convert.ToDecimal(Console.ReadLine());
 
-                        Console.Write("Provide Product Quanitity to be added: ");
-                        var initalQuantity = Convert.ToInt32(Console.ReadLine());
+                            for (var i = 0; i < ptype.Length; i++)
+                            {
+                                Console.WriteLine($"{i} : {ptype[i]}");
+                            }
 
+                            var productType = (TypeOfProduct)Enum.Parse(typeof(TypeOfProduct), Console.ReadLine());
+                        //seperate into two try catches and have them try again
                         
+                            Console.Write("Provide Product Price: ");
+                            var productPrice = Convert.ToDecimal(Console.ReadLine());
+
+                            Console.Write("Provide Product Quanitity to be added: ");
+                            var initalQuantity = Convert.ToInt32(Console.ReadLine());
+                        
+                     
+                   
                             var product = Inventory.CreateProduct(supplierName, productName, productType, productPrice, initalQuantity);
 
                             Console.WriteLine(" Product below was added to inventory");
                             Console.WriteLine("-----------------------------------");
                             Console.WriteLine($"ProductID: {product.ProductID}, ProductName: {product.ProductName}, Product Price: {product.ProductPrice:C}, Product Quantity: {product.ProductQuantity:0}, By Supplier: {product.ProductSupplierName}");
-                        
+                        }
+                        catch (ArgumentNullException e)
+                        {
+                            Console.WriteLine($" Error: {e.Message}");
+                        }
+                        catch ( ArgumentException e)
+                        {
+                            Console.WriteLine($" Error: {e.Message}");
+                        }
+                        catch (FormatException )
+                        {
+                            
+                            Console.WriteLine("  You have entered incorrect format type for price or quantity. please enter correct type");
+                        }
+                        catch(NullReferenceException e)
+                        {
+                            Console.WriteLine($" Error: {e.Message}");
+                        }
                         break;
 
 
@@ -248,16 +294,25 @@ namespace SoapStockApp
 
                         Console.Write("Provide Supplier Name: ");
 
-                        supplierName = Console.ReadLine();
-                        // IEnumerable<Product> products = new List<Product>();
                         try
                         {
+                           var supplierName = Console.ReadLine();
+                         
                             products = Inventory.GetAllProductsBySupplier(supplierName);
 
                             Console.WriteLine($" {supplierName}: List of Products in Inventory");
                             Console.WriteLine("--------------------------------------------------");
 
                             PrintProductList(products);
+                        }
+                        catch (ArgumentNullException e)
+                        {
+                            Console.WriteLine($" Error: {e.Message}");
+                        }
+                        catch (FormatException)
+                        {
+                            
+                            Console.WriteLine(" You have entered incorrect format for supplier name. Please try again");
                         }
                         catch(NullReferenceException e)
                         {

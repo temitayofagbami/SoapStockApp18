@@ -16,7 +16,27 @@ namespace SoapStockApp
         public static void CreateOrder(string custName, string custEmailAddress, string custAddress, string custPhoneNumber, List<Product> orderedproduct)
 
         {
-            
+
+            if (string.IsNullOrEmpty(custName))
+            {
+                throw new ArgumentNullException(" the customer name was not provided");
+            }
+            if (string.IsNullOrEmpty(custEmailAddress))
+            {
+                throw new ArgumentNullException(" the customer email was not provided");
+            }
+            if (string.IsNullOrEmpty(custAddress))
+            {
+                throw new ArgumentNullException(" the customer address was not provided");
+            }
+            if (string.IsNullOrEmpty(custPhoneNumber))
+            {
+                throw new ArgumentNullException(" the customer address was not provided");
+            }
+            if (orderedproduct.ToArray().Length == 0)
+            {
+                throw new ArgumentNullException(" No products were ordered");
+            }
 
             var customer = new Customer
             {
@@ -53,15 +73,20 @@ namespace SoapStockApp
 
                 };
 
-                
-                db.OrderDetails.Where(o => o.OrderDetailID == orderdetail.OrderDetailID).SingleOrDefault().CalTotalOrderQuantity(order.OrderQuantity);
-                db.OrderDetails.Where(o => o.OrderDetailID == orderdetail.OrderDetailID).SingleOrDefault().CalTotalOrderPrice(order.OrderPrice*order.OrderQuantity);
+                OrderDetail sameorderdetail = db.OrderDetails.Where(o => o.OrderDetailID == orderdetail.OrderDetailID).SingleOrDefault();
+
+                if (sameorderdetail == null)
+                {
+                    throw new NullReferenceException(" there is no orderdetail for this current orders");
+                }
+                sameorderdetail.CalTotalOrderQuantity(order.OrderQuantity);
+                sameorderdetail.CalTotalOrderPrice(order.OrderPrice*order.OrderQuantity);
                 db.SaveChanges();
 
-                Console.Write("this is order id ");
+              Console.Write("this is order id ");
                 Console.WriteLine(order.OrderID);
                 Console.Write("this is order detail number ");
-                Console.WriteLine(order.OrderDetailNumber);
+                Console.WriteLine(order.OrderDetailNumber); 
 
                 Console.Write("this is customer id ");
                 Console.WriteLine(order.CustomerNumber);

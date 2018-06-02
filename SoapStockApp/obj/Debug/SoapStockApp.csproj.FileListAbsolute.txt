@@ -1,11 +1,12 @@
-C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\SoapStockApp.exe
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\EntityFramework.dll
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\EntityFramework.xml
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.csproj.CoreCompileInputs.cache
-C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.exe
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.pdb
-C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\SoapStockApp.exe.config
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\SoapStockApp.pdb
 C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.csproj.CopyComplete
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\SoapStockApp.dll.config
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\bin\Debug\SoapStockApp.dll
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.csprojResolveAssemblyReference.cache
+C:\Users\tayo\Documents\GitHub\SoapStockApp18\SoapStockApp\obj\Debug\SoapStockApp.dll
